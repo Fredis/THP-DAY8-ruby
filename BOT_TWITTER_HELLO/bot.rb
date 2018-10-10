@@ -1,4 +1,4 @@
-
+#REGLES : ON NE PEUT POSTER QUE 50 TWEETS PAR 30 MINUTES
 require 'twitter'
 require 'dotenv'
 require 'pry'
