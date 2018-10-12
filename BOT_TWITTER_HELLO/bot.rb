@@ -19,9 +19,22 @@ end
   config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
 end
 
+	$client_CKBL = Twitter::REST::Client.new do |config|
+  config.consumer_key = ENV['TWITTER_API_KEY_CKBL']
+  config.consumer_secret     = ENV['TWITTER_API_SECRET_CKBL']
+  config.access_token        = ENV['TWITTER_ACCESS_TOKEN_CKBL']
+  config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET_CKBL']
+end
+
+	$client_stream_CKBL = Twitter::Streaming::Client.new do |config|
+  config.consumer_key = ENV['TWITTER_API_KEY_CKBL']
+  config.consumer_secret     = ENV['TWITTER_API_SECRET_CKBL']
+  config.access_token        = ENV['TWITTER_ACCESS_TOKEN_CKBL']
+  config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET_CKBL']
+end
 
 def tweeter_bonjour
-	$client.update("Bonjour monde !")
+	$client.update("zzz yyy xxx")
 end
 
 def follow_someone(account)
@@ -38,10 +51,21 @@ def stream
 end
 
 def stream_like
-	topics = ["chromeos"]
-	$client_stream.filter(track: topics.join(",")) do |object|
-  	$client.favorite object
+	topics = ["tea"]
+	counter = 0
+	array = []
+		$client_stream.filter(track: topics.join(",")) do |object|
+  		#$client.favorite object
+  		#puts object.user.name
+  	while counter < 5
+  		puts object
+  		array << object
+  		puts counter
+  		counter += 1
+		end
+		break
 	end
+			puts array
 end
 
 def tag_someone(account)
@@ -66,4 +90,16 @@ def liste_tweets_from_a_user_and_like_it
 	end
 end
 
-stream_like
+def direct_messages
+	$client_message.direct_message_create("ChromebookLive", "Ca va ?", options = {}) 
+end
+
+def botChromebookLive
+	topics = ["chomebook", "chromeos", "pixelslate", "pixel3", "madebygoogle"]
+	$client_stream_CKBL.filter(track: topics.join(",")) do |object|
+		puts object.text
+		$client_CKBL.favorite object
+	end
+end
+
+botChromebookLive
